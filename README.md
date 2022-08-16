@@ -47,8 +47,8 @@ These classes should include:
     * int getId();
 4. A concrete DTO class that implements the interface.
 
-## Run the App
-Create an App runner class to run each CRUD operation against your DAO
+## Run the daos.App
+Create an daos.App runner class to run each CRUD operation against your DAO
 
 * findById()
 * findAll()
