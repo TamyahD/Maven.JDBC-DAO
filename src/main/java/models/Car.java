@@ -75,4 +75,16 @@ public class Car {
     public void setVin(Integer vin) {
         this.vin = vin;
     }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id=" + id +
+                ", make='" + make + '\'' +
+                ", model='" + model + '\'' +
+                ", year=" + year +
+                ", color='" + color + '\'' +
+                ", vin=" + vin +
+                "}";
+    }
 }

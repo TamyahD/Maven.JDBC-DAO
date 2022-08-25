@@ -66,6 +66,7 @@ public class OperationsCRUD<T> implements InterfaceDAO<T> {
 
             while (rs.next()) {
                 Car car = (Car) extractDataFromResultSet(rs);
+//                System.out.println(car);
                 cars.add(car);
             }
             return cars;
@@ -76,10 +77,59 @@ public class OperationsCRUD<T> implements InterfaceDAO<T> {
     }
 
     public T update(T dto) {
+        DataBaseConnector connector = new DataBaseConnector();
+        Connection connection = DataBaseConnector.getConnection();
+        if (dto instanceof Car) {
+            Car carDto = (Car) dto;
+            try {
+                PreparedStatement ps = connection.prepareStatement(
+                        "UPDATE CarInventory SET make=?," +
+                                "model=?, year=?, color=?, vin=?");
+
+                ps.setString(1, ((Car) dto).getMake());
+                ps.setString(2, ((Car) dto).getModel());
+                ps.setInt(3, ((Car) dto).getYear());
+                ps.setString(4, ((Car) dto).getColor());
+                ps.setInt(5, ((Car) dto).getVin());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            return (T)carDto;
+        }
+//        DataBaseConnector connector = new DataBaseConnector();
+//        Connection connection = DataBaseConnector.getConnection();
+//        try {
+//            PreparedStatement ps = connection.prepareStatement(
+//                    "UPDATE CarInventory SET make=?, model=?, year=?, color=?, vin=?");
+//            ps.setString(1, (Car)dto.getMake());
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
         return null;
     }
 
     public T create(T dto) {
+        DataBaseConnector connector = new DataBaseConnector();
+        Connection connection = DataBaseConnector.getConnection();
+        if (dto instanceof Car) {
+            try {
+                PreparedStatement ps = connection.prepareStatement(
+                        "INSERT INTO CarInventory " +
+                                "(make, model, year, color, vin) " +
+                                "VALUES (?, ?, ?, ?, ?)");
+
+                ps.setString(1, ((Car) dto).getMake());
+                ps.setString(2, ((Car) dto).getModel());
+                ps.setInt(3, ((Car) dto).getYear());
+                ps.setString(4, ((Car) dto).getColor());
+                ps.setInt(5, ((Car) dto).getVin());
+                int i = ps.executeUpdate();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            return dto;
+        }
         return null;
     }
 }
